@@ -17,6 +17,7 @@ function CustomerModule() {
     <div className="animate-fade-in">
       <Suspense fallback={<CustomerLoading />}>
         <CustomerList />
+
       </Suspense>
     </div>
   )

@@ -39,7 +39,7 @@ function DataTable({
       data,
       initialState: { pageIndex: 0, pageSize },
       manualPagination: !!pagination,
-      pageCount: pagination?.totalPages || Math.ceil(data.length / pageSize)
+      pageCount: pagination?.totalPages || Math.ceil(data?.length / pageSize)
     },
     useSortBy,
     usePagination

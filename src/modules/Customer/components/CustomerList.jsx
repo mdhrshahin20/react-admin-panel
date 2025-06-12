@@ -8,7 +8,7 @@ import DeleteCustomerModal from './DeleteCustomerModal'
 import Modal from '../../../components/Modal'
 import { customerApi } from '../api/customerApi'
 import { customerTableColumns, customerSearchFields } from '../schemas/customerSchema'
-
+import store from "../../../store/store.js";
 function CustomerList() {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -24,12 +24,12 @@ function CustomerList() {
     filters,
     selectedCustomers
   } = useSelect((select) => ({
-    customers: select('radius-booking/customers').getCustomers(),
-    loading: select('radius-booking/customers').getLoading(),
-    error: select('radius-booking/customers').getError(),
-    pagination: select('radius-booking/customers').getPagination(),
-    filters: select('radius-booking/customers').getFilters(),
-    selectedCustomers: select('radius-booking/customers').getSelectedCustomers()
+    customers: select(store).getCustomers(),
+    loading: select(store).getLoading(),
+    error: select(store).getError(),
+    pagination: select(store).getPagination(),
+    filters: select(store).getFilters(),
+    selectedCustomers: select(store).getSelectedCustomers()
   }))
 
   // Redux actions
@@ -44,12 +44,12 @@ function CustomerList() {
     setSelectedCustomers,
     toggleCustomerSelection,
     clearSelection
-  } = useDispatch('radius-booking/customers')
+  } = useDispatch(store)
 
   // Load customers on component mount and when filters change
   useEffect(() => {
     loadCustomers()
-  }, [filters, pagination.currentPage])
+  }, [filters, pagination?.currentPage])
 
   const loadCustomers = async () => {
     try {
@@ -133,7 +133,7 @@ function CustomerList() {
 
   // Handle bulk delete
   const handleBulkDelete = async () => {
-    if (selectedCustomers.length === 0) return
+    if (selectedCustomers?.length === 0) return
     
     try {
       setLoading(true)
@@ -172,19 +172,19 @@ function CustomerList() {
     }
   ]
 
-  if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-        <p className="text-red-800">Error: {error}</p>
-        <button 
-          onClick={loadCustomers}
-          className="mt-2 btn btn-outline text-sm"
-        >
-          Retry
-        </button>
-      </div>
-    )
-  }
+  // if (error) {
+  //   return (
+  //     <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+  //       <p className="text-red-800">Error: {error}</p>
+  //       <button
+  //         onClick={loadCustomers}
+  //         className="mt-2 btn btn-outline text-sm"
+  //       >
+  //         Retry
+  //       </button>
+  //     </div>
+  //   )
+  // }
 
   return (
     <div className="space-y-6">
@@ -195,7 +195,7 @@ function CustomerList() {
           <p className="text-primary-600">Manage your customer database</p>
         </div>
         <div className="flex items-center gap-3">
-          {selectedCustomers.length > 0 && (
+          {selectedCustomers?.length > 0 && (
             <button
               onClick={handleBulkDelete}
               className="btn bg-red-600 text-white hover:bg-red-700 flex items-center gap-2"
@@ -223,7 +223,7 @@ function CustomerList() {
               <input
                 type="text"
                 placeholder="Search customers..."
-                value={filters.search}
+                value={filters?.search}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="input pl-10"
               />
@@ -231,7 +231,7 @@ function CustomerList() {
           </div>
           <div className="sm:w-48">
             <select
-              value={filters.status}
+              value={filters?.status}
               onChange={(e) => handleFilterChange('status', e.target.value)}
               className="input"
             >
