@@ -1,13 +1,10 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter as Router } from 'react-router-dom'
+import React from 'react'
+import ReactDOM, { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+import './scss/main.scss'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </StrictMode>,
-)
+const root = document.getElementById('radius-booking')
+if (root) {
+    ReactDOM.createRoot(root).render(<App />)
+}
