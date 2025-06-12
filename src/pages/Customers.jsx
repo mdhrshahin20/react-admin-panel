@@ -1,17 +1,7 @@
-import PageHeader from '../components/PageHeader'
+import CustomerModule from '../modules/Customer'
 
 function Customers() {
-  return (
-    <div className="animate-fade-in">
-      <PageHeader 
-        title="Customers" 
-        description="Manage your customer database."
-      />
-      <div className="card">
-        <p>Customers content will go here</p>
-      </div>
-    </div>
-  )
+  return <CustomerModule />
 }
 
 export default Customers
