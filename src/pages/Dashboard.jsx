@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { 
   RiCalendarLine, RiUserLine, RiMapPinLine, 
   RiMoneyDollarCircleLine, RiTeamLine, RiServiceLine
@@ -16,7 +18,6 @@ import {
   Legend,
   Filler
 } from 'chart.js'
-import DashboardCard from '../components/DashboardCard'
 import PageHeader from '../components/PageHeader'
 
 // Register ChartJS components
@@ -159,137 +160,167 @@ function Dashboard() {
       />
       
       {/* Dashboard Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {dashboardCards.map((card, index) => (
-          <DashboardCard 
+          <Card 
             key={index}
-            title={card.title}
-            value={card.value}
-            icon={card.icon}
-            change={card.change}
-            changeType={card.changeType}
+            className="cursor-pointer hover:shadow-md transition-shadow duration-300"
             onClick={() => console.log(`Navigate to ${card.path}`)}
-          />
+          >
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
+              {card.icon}
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{card.value}</div>
+              {card.change && (
+                <p className="text-xs text-muted-foreground">
+                  <span className={card.changeType === 'positive' ? 'text-green-600' : 'text-red-600'}>
+                    {card.changeType === 'positive' ? '↑' : '↓'} {card.change}
+                  </span>
+                  {' '}vs last month
+                </p>
+              )}
+            </CardContent>
+          </Card>
         ))}
       </div>
       
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Appointments Chart */}
-        <div className="card">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="font-semibold text-primary-900">Appointments</h3>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <CardTitle>Appointments</CardTitle>
             <div className="flex items-center space-x-2">
-              <button 
-                className={`px-3 py-1 text-sm rounded-md ${period === 'week' ? 'bg-primary-100 text-primary-800' : 'text-primary-600 hover:bg-primary-50'}`}
+              <Button 
+                variant={period === 'week' ? 'default' : 'outline'}
+                size="sm"
                 onClick={() => setPeriod('week')}
               >
                 Week
-              </button>
-              <button 
-                className={`px-3 py-1 text-sm rounded-md ${period === 'month' ? 'bg-primary-100 text-primary-800' : 'text-primary-600 hover:bg-primary-50'}`}
+              </Button>
+              <Button 
+                variant={period === 'month' ? 'default' : 'outline'}
+                size="sm"
                 onClick={() => setPeriod('month')}
               >
                 Month
-              </button>
-              <button 
-                className={`px-3 py-1 text-sm rounded-md ${period === 'year' ? 'bg-primary-100 text-primary-800' : 'text-primary-600 hover:bg-primary-50'}`}
+              </Button>
+              <Button 
+                variant={period === 'year' ? 'default' : 'outline'}
+                size="sm"
                 onClick={() => setPeriod('year')}
               >
                 Year
-              </button>
+              </Button>
             </div>
-          </div>
-          <div className="h-64">
-            <Line data={appointmentsData} options={chartOptions} />
-          </div>
-        </div>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <Line data={appointmentsData} options={chartOptions} />
+            </div>
+          </CardContent>
+        </Card>
         
         {/* Revenue Chart */}
-        <div className="card">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="font-semibold text-primary-900">Revenue</h3>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <CardTitle>Revenue</CardTitle>
             <div className="flex items-center space-x-2">
-              <button 
-                className={`px-3 py-1 text-sm rounded-md ${period === 'week' ? 'bg-primary-100 text-primary-800' : 'text-primary-600 hover:bg-primary-50'}`}
+              <Button 
+                variant={period === 'week' ? 'default' : 'outline'}
+                size="sm"
                 onClick={() => setPeriod('week')}
               >
                 Week
-              </button>
-              <button 
-                className={`px-3 py-1 text-sm rounded-md ${period === 'month' ? 'bg-primary-100 text-primary-800' : 'text-primary-600 hover:bg-primary-50'}`}
+              </Button>
+              <Button 
+                variant={period === 'month' ? 'default' : 'outline'}
+                size="sm"
                 onClick={() => setPeriod('month')}
               >
                 Month
-              </button>
-              <button 
-                className={`px-3 py-1 text-sm rounded-md ${period === 'year' ? 'bg-primary-100 text-primary-800' : 'text-primary-600 hover:bg-primary-50'}`}
+              </Button>
+              <Button 
+                variant={period === 'year' ? 'default' : 'outline'}
+                size="sm"
                 onClick={() => setPeriod('year')}
               >
                 Year
-              </button>
+              </Button>
             </div>
-          </div>
-          <div className="h-64">
-            <Bar data={revenueData} options={chartOptions} />
-          </div>
-        </div>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <Bar data={revenueData} options={chartOptions} />
+            </div>
+          </CardContent>
+        </Card>
       </div>
       
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Activity */}
-        <div className="card">
-          <h3 className="font-semibold text-primary-900 mb-4">Recent Activity</h3>
-          <div className="space-y-4">
-            {recentActivities.map(activity => (
-              <div key={activity.id} className="flex items-start space-x-3">
-                <div className="bg-primary-100 rounded-full p-2 mt-1">
-                  {activity.type === 'appointment' && <RiCalendarLine className="w-5 h-5 text-primary-600" />}
-                  {activity.type === 'customer' && <RiUserLine className="w-5 h-5 text-primary-600" />}
-                  {activity.type === 'payment' && <RiMoneyDollarCircleLine className="w-5 h-5 text-primary-600" />}
-                  {activity.type === 'employee' && <RiTeamLine className="w-5 h-5 text-primary-600" />}
-                  {activity.type === 'service' && <RiServiceLine className="w-5 h-5 text-primary-600" />}
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Activity</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentActivities.map(activity => (
+                <div key={activity.id} className="flex items-start space-x-3">
+                  <div className="bg-muted rounded-full p-2 mt-1">
+                    {activity.type === 'appointment' && <RiCalendarLine className="w-5 h-5" />}
+                    {activity.type === 'customer' && <RiUserLine className="w-5 h-5" />}
+                    {activity.type === 'payment' && <RiMoneyDollarCircleLine className="w-5 h-5" />}
+                    {activity.type === 'employee' && <RiTeamLine className="w-5 h-5" />}
+                    {activity.type === 'service' && <RiServiceLine className="w-5 h-5" />}
+                  </div>
+                  <div>
+                    <p className="text-sm">{activity.message}</p>
+                    <p className="text-xs text-muted-foreground">{activity.time}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-primary-900">{activity.message}</p>
-                  <p className="text-sm text-primary-500">{activity.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button className="text-primary-600 hover:text-primary-800 font-medium text-sm mt-4">
-            View all activity
-          </button>
-        </div>
+              ))}
+            </div>
+            <Button variant="link" className="mt-4 p-0 h-auto">
+              View all activity
+            </Button>
+          </CardContent>
+        </Card>
         
         {/* Upcoming Appointments */}
-        <div className="card">
-          <h3 className="font-semibold text-primary-900 mb-4">Upcoming Appointments</h3>
-          <div className="space-y-3">
-            {upcomingAppointments.map(appointment => (
-              <div key={appointment.id} className="p-3 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
-                <div className="flex justify-between">
-                  <span className="font-medium text-primary-900">{appointment.customer}</span>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    appointment.status === 'confirmed' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {appointment.status}
-                  </span>
+        <Card>
+          <CardHeader>
+            <CardTitle>Upcoming Appointments</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {upcomingAppointments.map(appointment => (
+                <div key={appointment.id} className="p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                  <div className="flex justify-between">
+                    <span className="font-medium">{appointment.customer}</span>
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      appointment.status === 'confirmed' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {appointment.status}
+                    </span>
+                  </div>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-sm text-muted-foreground">{appointment.service}</span>
+                    <span className="text-sm text-muted-foreground">{appointment.date}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between mt-1">
-                  <span className="text-primary-600">{appointment.service}</span>
-                  <span className="text-primary-500 text-sm">{appointment.date}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button className="text-primary-600 hover:text-primary-800 font-medium text-sm mt-4">
-            View all appointments
-          </button>
-        </div>
+              ))}
+            </div>
+            <Button variant="link" className="mt-4 p-0 h-auto">
+              View all appointments
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
