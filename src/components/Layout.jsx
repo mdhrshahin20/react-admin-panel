@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '../lib/utils'
 import Sidebar from './Sidebar'
 import Header from './Header'
 
