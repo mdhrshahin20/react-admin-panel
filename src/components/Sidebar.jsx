@@ -7,6 +7,7 @@ import {
   RiFileList3Line, RiListSettingsLine, RiSettings4Line,
   RiCloseLine
 } from 'react-icons/ri'
+import { cn } from '@/lib/utils'
 
 function Sidebar({ isOpen, toggleSidebar }) {
   const location = useLocation()
@@ -65,17 +66,21 @@ function Sidebar({ isOpen, toggleSidebar }) {
           </div>
           
           {/* Navigation links */}
-          <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+          <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
             {sidebarItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`nav-link ${isActive(item.path) ? 'active' : ''}`}
-                onClick={() => window.innerWidth < 1024 && toggleSidebar(false)}
-              >
-                <item.icon className="sidebar-icon" />
-                <span>{item.name}</span>
-              </Link>
+                <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => window.innerWidth < 1024 && toggleSidebar(false)}
+                    className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all ${
+                        isActive(item.path)
+                            ? 'bg-gray-100 text-primary'
+                            : 'text-gray-600 hover:bg-gray-50 hover:text-primary'
+                    }`}
+                >
+                  <item.icon className="w-5 h-5 mr-3" />
+                  <span>{item.name}</span>
+                </Link>
             ))}
           </nav>
           

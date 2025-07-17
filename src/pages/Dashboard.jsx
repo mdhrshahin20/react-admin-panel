@@ -5,7 +5,8 @@ import {
   RiCalendarLine, RiUserLine, RiMapPinLine, 
   RiMoneyDollarCircleLine, RiTeamLine, RiServiceLine
 } from 'react-icons/ri'
-import { Line, Bar } from 'react-chartjs-2'
+
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,20 +19,23 @@ import {
   Legend,
   Filler
 } from 'chart.js'
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
+)
+import { Line, Bar } from 'react-chartjs-2'
+
 import PageHeader from '../components/PageHeader'
 
 // Register ChartJS components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-)
 
 function Dashboard() {
   const [period, setPeriod] = useState('month')
