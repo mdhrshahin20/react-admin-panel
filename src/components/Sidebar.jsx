@@ -1,5 +1,5 @@
 import { useLocation, Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { 
   RiDashboardLine, RiCalendarLine, RiCalendarEventLine,
   RiTeamLine, RiServiceLine, RiMapPinLine,
@@ -28,27 +28,27 @@ function Sidebar({ isOpen, toggleSidebar }) {
     { name: 'Settings', path: '/settings', icon: RiSettings4Line }
   ]
 
-  const sidebarVariants = {
-    open: { x: 0 },
-    closed: { x: '-100%' }
-  }
-
   return (
     <>
       {/* Mobile backdrop */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 z-20 bg-black bg-opacity-50 lg:hidden"
-          onClick={() => toggleSidebar(false)}
-        ></div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            className="fixed inset-0 z-20 bg-black bg-opacity-50 lg:hidden"
+            onClick={() => toggleSidebar(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          />
+        )}
+      </AnimatePresence>
     
       {/* Sidebar */}
-      <motion.aside
-        className={`fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 lg:relative lg:translate-x-0 transition-all duration-300 ease-in-out`}
-        initial={false}
-        animate={isOpen ? "open" : "closed"}
-        variants={sidebarVariants}
+      <aside
+        className={`fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar header */}
@@ -92,7 +92,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
             </div>
           </div>
         </div>
-      </motion.aside>
+      </aside>
     </>
   )
 }

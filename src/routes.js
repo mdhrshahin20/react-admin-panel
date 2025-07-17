@@ -10,6 +10,7 @@ import Notifications from './pages/Notifications'
 import CustomForms from './pages/CustomForms'
 import CustomFields from './pages/CustomFields'
 import Settings from './pages/Settings'
+import AddServiceForm from './pages/AddServiceForm'
 
 const routes = [
   {
@@ -59,6 +60,10 @@ const routes = [
   {
     path: '/settings',
     element: Settings,
+  },
+  {
+    path: '/add-service',
+    element: AddServiceForm,
   }
 ]
 
